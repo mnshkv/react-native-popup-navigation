@@ -1,0 +1,31 @@
+{
+  "name": "popup-navigation",
+  "version": "0.1.0-alpha.1",
+  "description": "popup navigation",
+  "main": "src/index.js",
+  "repository": "https://github.com/mnshkv/react-native-popup-navigation.git",
+  "author": "mnshkv",
+  "license": "MIT",
+  "scripts": {
+    "build": "bob build"
+  },
+  "files": [
+    "lib/"
+  ],
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-gesture-handler": "*"
+  },
+  "devDependencies": {
+    "@react-native-community/bob": "^0.7.0"
+  },
+  "@react-native-community/bob": {
+    "source": "lib",
+    "output": "src",
+    "targets": [
+      ["commonjs", {"flow": false}],
+      "module"
+    ]
+  }
+}
