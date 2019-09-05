@@ -3,7 +3,7 @@
 Open a Terminal in the project root and run:
 
 ```
-yarn add https://github.com/mnshkv/react-native-popup-navigation
+yarn add react-native-popup-navigation
 ```
 
 Install and link [react-native-gesture-handler](https://kmagiera.github.io/react-native-gesture-handler/docs/getting-started.html)
