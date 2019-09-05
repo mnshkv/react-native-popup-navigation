@@ -48,9 +48,15 @@ const Navigator = (props) => {
     setPopUpScreen({ name: presentPage.name, props: { ...presentPage.props, ...params } })
   }
 
-  dismiss = () => {
-    popupRef.current.snapTo(height)
-    setPopUpScreen(null)
+  dismiss = (animted = false) => {
+    if (animted) {
+      popupRef.current.snapTo(height)
+    }
+
+    setTimeout(() => {
+      setPopUpScreen(null)
+    }, animted ? 150 : 0)
+    
   }
 
   renderInitPage = () => {
