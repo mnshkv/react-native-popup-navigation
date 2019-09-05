@@ -1,3 +1,6 @@
+![](gifs/bottom_sheet.gif)  |  ![](gifs/navigation.gif) |
+:---------------:|:----------------:|
+
 # Installation
 
 Open a Terminal in the project root and run:
