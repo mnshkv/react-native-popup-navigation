@@ -41,6 +41,7 @@ export default () => {
 | name                      | yes      | name to navigate |
 | init                      | no       | inital page |
 | snapPoints                | no       |             |
+| popupStyle                | no       | form popup styles |
 
 # Moving between screens
 
