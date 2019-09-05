@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Animated, StyleSheet, View, Dimensions } from 'react-native'
+import { Animated, StyleSheet, View, Dimensions, Easing } from 'react-native'
 import {
   PanGestureHandler,
   NativeViewGestureHandler,
@@ -9,7 +9,14 @@ import {
 
 const { width, height } = Dimensions.get('window')
 
-export class BottomSheet extends Component {
+const EPSILON = 1e-9
+
+const easeIn = Easing.bezier(0.42, 0, 1, 1, EPSILON)
+const easeOut = Easing.bezier(0, 0, 0.58, 1, EPSILON)
+const easeInOut = Easing.bezier(0.42, 0, 0.58, 1, EPSILON)
+const def = Easing.bezier(0.25, 0.1, 0.25, 1, EPSILON)
+
+export default class PopUp extends Component {
   masterdrawer = React.createRef()
   drawer = React.createRef()
   drawerheader = React.createRef()
@@ -27,8 +34,9 @@ export class BottomSheet extends Component {
       bounces: props.bounces
     }
 
-    this._lastScrollYValue = 0
-    this._lastScrollY = new Animated.Value(0)
+    this._lastScrollYValue = props._lastScrollYValue
+    this._lastScrollY = props._lastScrollY
+
     this._onRegisterLastScroll = Animated.event(
       [{ nativeEvent: { contentOffset: { y: this._lastScrollY } } }],
       { useNativeDriver: props.nativeDriver }
@@ -43,7 +51,7 @@ export class BottomSheet extends Component {
       }
     })
 
-    this._dragY = new Animated.Value(0)
+    this._dragY = props._dragY
 
     this._onGestureEvent = Animated.event(
       [{ nativeEvent: { translationY: this._dragY } }],
@@ -55,7 +63,7 @@ export class BottomSheet extends Component {
       this._lastScrollY
     )
 
-    this._translateYOffset = new Animated.Value(END)
+    this._translateYOffset = props._translateYOffset
 
     this._translateY = Animated.add(
       this._translateYOffset,
@@ -70,11 +78,16 @@ export class BottomSheet extends Component {
       this._translateYOffset,
       Animated.add(this._dragY, this._reverseLastScrollY)
     ).interpolate({
-      inputRange: [START, AFTER_START / 2],
-      outputRange: [0, props.corderRadius],
+      inputRange: [START, AFTER_START / 12],
+      outputRange: [0, props.cornerRadius],
       extrapolate: 'clamp',
     })
   }
+
+  componentDidMount() {
+    // this.snapTo(this.props.snapPoints[0])
+  }
+
   _onHeaderHandlerStateChange = ({ nativeEvent }) => {
     if (nativeEvent.oldState === State.BEGAN) {
       this._lastScrollY.setValue(0)
@@ -84,10 +97,14 @@ export class BottomSheet extends Component {
   }
 
   snapTo = (value) => {
-    Animated.spring(this._translateYOffset, {
-      tension: 68,
-      friction: 12,
+    Animated.timing(this._translateYOffset, {
+      // velocity: 0,
+      // overshootClamping: true,
+      // tension: 68,
+      // friction: 12,
+      duration: 250,
       toValue: value,
+      easing: def,
       useNativeDriver: this.props.nativeDriver,
     }).start(() => {
       this.setState({ lastSnap: value })
@@ -123,7 +140,11 @@ export class BottomSheet extends Component {
         friction: 12,
         toValue: destSnapPoint,
         useNativeDriver: this.props.nativeDriver,
-      }).start()
+      }).start(() => {
+        if (this.state.lastSnap === this.props.snapPoints[this.props.snapPoints.length - 1]) {
+          this.props.dismiss()
+        }
+      })
     }
   }
 
@@ -133,7 +154,7 @@ export class BottomSheet extends Component {
         maxDurationMs={100000}
         ref={this.masterdrawer}
         maxDeltaY={this.state.lastSnap - this.props.snapPoints[0]}>
-        <View style={StyleSheet.absoluteFillObject} pointerEvents="box-none">
+        <View style={{ position: 'absolute', width, height, top: 0, left: 0, right: 0, bottom: 0 }} pointerEvents="box-none">
           <Animated.View
             style={
               {
@@ -155,6 +176,11 @@ export class BottomSheet extends Component {
                     overflow: 'hidden',
                     borderTopLeftRadius: this._radius,
                     borderTopRightRadius: this._radius
+                  },
+                  !this.props.animateBorder && {
+                    overflow: 'hidden',
+                    borderTopLeftRadius: this.props.cornerRadius,
+                    borderTopRightRadius: this.props.cornerRadius
                   }
                 ]}
               >
@@ -166,6 +192,7 @@ export class BottomSheet extends Component {
                     ref={ref => { this.scrollV = ref}}
                     style={this.props.scrollStyle}
                     bounces={this.state.bounces}
+                    contentContainerStyle={{ minWidth: width, minHeight: height }}
                     onScrollBeginDrag={this._onRegisterLastScroll}
                     scrollEventThrottle={16}>
                       {this.props.renderContent()}
@@ -180,33 +207,19 @@ export class BottomSheet extends Component {
   }
 }
 
-BottomSheet.defaultProps = {
+PopUp.defaultProps = {
   bounces: true,
   nativeDriver: true,
   animateBorder: false,
-  corderRadius: 20
+  cornerRadius: 20
 }
-
-export default class BottomSheetContainer extends Component {
-  bottomSheet = React.createRef()
-
-  snapTo = (value) => {
-    this.bottomSheet.snapTo(value)
-  }
-
-  render() {
-    return (
-      <View style={[styles.container, { position: 'absolute', top: 0, left: 0 }]}>
-        <BottomSheet ref={ref => { this.bottomSheet = ref }} {...this.props} />
-      </View>
-    )
-  }
-}
-
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
+  },
+  header: {
+    backgroundColor: 'red',
+  },
 })

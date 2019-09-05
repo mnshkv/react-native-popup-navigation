@@ -1,6 +1,6 @@
 {
-  "name": "popup-navigation",
-  "version": "0.1.0-alpha.1",
+  "name": "react-native-popup-navigation",
+  "version": "0.1.2",
   "description": "popup navigation",
   "main": "src/commonjs/index.js",
   "module": "src/module/index.js",
@@ -35,7 +35,7 @@
     "source": "lib",
     "output": "src",
     "targets": [
-      ["commonjs", {"flow": false}],
+      ["commonjs", {"flow": true}],
       "module"
     ]
   }
