@@ -2,15 +2,26 @@
   "name": "popup-navigation",
   "version": "0.1.0-alpha.1",
   "description": "popup navigation",
-  "main": "src/index.js",
-  "repository": "https://github.com/mnshkv/react-native-popup-navigation.git",
+  "main": "src/commonjs/index.js",
+  "module": "src/module/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mnshkv/react-native-popup-navigation.git"
+  },
   "author": "mnshkv",
   "license": "MIT",
   "scripts": {
     "build": "bob build"
   },
+  "keywords": [
+    "react-native",
+    "popup",
+    "navigation"
+  ],
   "files": [
-    "lib/"
+    "lib/",
+    "src/",
+    "README.md"
   ],
   "peerDependencies": {
     "react": "*",
