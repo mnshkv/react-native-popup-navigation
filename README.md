@@ -1,4 +1,4 @@
-![](gifs/bottom_sheet.mov)  |  ![](gifs/navigation.mov) |
+![](gifs/2.gif)  |  ![](gifs/1.gif) |
 :---------------:|:----------------:|
 
 # Installation
