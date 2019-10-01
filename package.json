@@ -1,6 +1,6 @@
 {
   "name": "react-native-popup-navigation",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "popup navigation",
   "main": "src/commonjs/index.js",
   "module": "src/module/index.js",
