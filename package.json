@@ -1,6 +1,6 @@
 {
   "name": "react-native-popup-navigation",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "popup navigation",
   "main": "src/commonjs/index.js",
   "module": "src/module/index.js",
@@ -16,7 +16,11 @@
   "keywords": [
     "react-native",
     "popup",
-    "navigation"
+    "navigation",
+    "nav",
+    "pop-up",
+    "slide-up",
+    "rn"
   ],
   "files": [
     "lib/",
